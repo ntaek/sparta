@@ -11,6 +11,12 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+ <!-- JS -->   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 <style type="text/css">
   * {
     font-family: 'Stylish', sans-serif;
@@ -34,17 +40,73 @@
     border: solid;
     display: block;
   }
-  .form-center {
 
+  .form-center {
     margin: 0 auto;
     width: 150px;
-
   }
 
 </style>
 
+<script type="text/javascript">
+  function order() {
+    let name = $('#order_name').val();
+    let count = $('#order_count').val();
+    let address = $('#order_address').val();
+    let phone = $('#order_phone').val();
+    let item = '토이스토리';
+
+    $.ajax({
+      type: "POST",
+      url: "http://spartacodingclub.shop/order",
+      data: { name_give:name, count_give:count, address_give:address, phone_give:phone, item_give:item},
+      success: function(response){
+        if (response['result'] == 'success'){
+          alert('주문 완료!');
+          window.location.reload();
+        } 
+      }
+    })
+  }
+
+  $(document).ready(function(){
+    $('#orders-box').html('');
+    listing();
+  });
+
+  function listing() {
+    $.ajax({
+      type: "GET",
+      url: "http://spartacodingclub.shop/order?item_give=토이스토리",
+      data: {},
+      success: function(response){
+        if (response['result'] == 'success'){
+          let orders = response['orders'];
+          for (let i = 0; i < orders.length; i++) {
+            make_card(orders[i]['item'],orders[i]['name'],orders[i]['count'],orders[i]['address'],orders[i]['phone'])
+          }
+        } else {
+          alert('기사를 받아오지 못했습니다.');
+        }
+      }
+    })
+  }
+
+  function make_card(item,name,count,address,phone) {
+    let temp_html = '<tr>\
+        <td>'+item+'</td>\
+        <td>'+name+'</td>\
+        <td>'+count+'</td>\
+        <td>'+address+'</td>\
+        <td>'+phone+'</td>\
+        </tr>';
+    $('#orders-box').append(temp_html);
+  }
+
+</script>
 
 
+<body>
 <div class="form-post">
 
   <img class="card-img-top" src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg"  alt="Card image cap">
@@ -63,7 +125,7 @@
       <div class="form-inline">
         <label class="control-label col-sm-2" for="productName">주문자 성함:</label>
         <div class="col-sm-10"> 
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" id="order_name">
         </div>
       </div>
     </div>
@@ -71,7 +133,7 @@
       <div class="form-inline">
         <label class="control-label col-sm-2" for="productNumber">수량:</label>
         <div class="col-sm-10">
-          <select class="form-control">
+          <select class="form-control" id="order_count">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -83,9 +145,9 @@
     </div>
     <div class="form-group">
       <div class="form-inline">
-        <label class="control-label col-sm-2" for="productNumber">주소:</label>
+        <label class="control-label col-sm-2" for="productAddress">주소:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" id="order_address">
         </div>
       </div>
     </div>
@@ -93,17 +155,40 @@
       <div class="form-inline">
         <label class="control-label col-sm-2" for="productNumber">전화번호:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" id="order_phone">
         </div>
       </div>
     </div>
 
     <div class="form-center">     
-      <button type="button" class="btn btn-primary" style="width:250px">주문하기</button>
+      <button type="button" onclick="order()" class="btn btn-primary" style="width:250px">주문하기</button>
     </div>
-
   </form>
+  <br><br>
+  <div class="orders">
+    <table = class="table">
+      <thead>
+        <tr>
+          <th scope="col">상품명</th>
+          <th scope="col">이름</th>
+          <th scope="col">수량</th>
+          <th scope="col">주소</th>
+          <th scope="col">전화번호</th>
+        </tr>
+      </thead>
+      <tbody id="orders-box">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+</body>
 
 
 
