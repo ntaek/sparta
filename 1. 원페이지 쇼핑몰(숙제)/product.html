@@ -27,16 +27,16 @@
   }
   .comment {
     color: blue;
-    font-weight: bold;
+    font-weight: bold
   }
 
   .form-post {
     #max-width: 1800px;
-    padding: 3rem;
-    margin: 0 auto;          
+    padding: 3rem 8rem;
+    margin: 10px auto;          
     width: 1000px;
     border-color: black;
-    border-radius: 0.3rem;
+    border-radius: 0.5rem;
     border: solid;
     display: block;
   }
@@ -54,7 +54,7 @@
     let count = $('#order_count').val();
     let address = $('#order_address').val();
     let phone = $('#order_phone').val();
-    let item = '토이스토리';
+    let item = '호빵';
 
     $.ajax({
       type: "POST",
@@ -65,7 +65,7 @@
           alert('주문 완료!');
           window.location.reload();
         } 
-      }
+     } 
     })
   }
 
@@ -77,7 +77,7 @@
   function listing() {
     $.ajax({
       type: "GET",
-      url: "http://spartacodingclub.shop/order?item_give=토이스토리",
+      url: "http://spartacodingclub.shop/order?item_give=호빵",
       data: {},
       success: function(response){
         if (response['result'] == 'success'){
@@ -109,12 +109,13 @@
 <body>
 <div class="form-post">
 
-  <img class="card-img-top" src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg"  alt="Card image cap">
+  <img class="card-img-top"  width="150" height="400" src="http://th4.tmon.kr/thumbs/image/39b/06b/cf2/eecd33e2d_700x700_95_FIT.jpg"  alt="Card image cap">
 
-  <h3 class="card-title" style="font-size: 30px; display: inline-block;">토이스토리 </h3>
-  <h3 class="card-title" style="font-size: 15px; display: inline-block;">가격:1,000,000원 / 100개 </h3>
+  <h3 class="card-title" style="font-size: 30px; display: inline-block;">호빵 </h3>
+  <h3 class="card-title" style="font-size: 15px; display: inline-block;">가격:1,000원 / 100개 </h3>
 
-  <p class="card-text">토이스토리 장난감 </p>
+  <p class="card-text">맛있는 호빵 호호 호빵빵빵 </p>
+
   <h3 class="card-title" style="font-size: 30px"> 주문하기</h3>
 
 
@@ -161,7 +162,7 @@
     </div>
 
     <div class="form-center">     
-      <button type="button" onclick="order()" class="btn btn-primary" style="width:250px">주문하기</button>
+      <button onclick="order()" type="button" class="btn btn-primary" style="width:250px">주문하기</button>
     </div>
   </form>
   <br><br>

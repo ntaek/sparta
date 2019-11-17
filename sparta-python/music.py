@@ -17,9 +17,9 @@ rank = 1
 for music in genie:
     a_tag = music.select_one('td.info > a.title.ellipsis')
     b_tag = music.select_one('td.info > a.artist.ellipsis')
-    #b_tag = movie.select_one('td.point')
-    if not a_tag == None:
-        #rank = b_tag.text
+    c_tag = music.select_one('td.info > a.')
+        if a_tag is not None:
+
         title = a_tag.text
         singer = b_tag.text
         print(rank, title.strip(), singer.strip())
@@ -29,5 +29,5 @@ for music in genie:
             'title' : title,
             'singer' : singer
         }
-        db.musics.insert_one(doc)
-        rank += 1
+    #    db.musics.insert_one(doc)
+    #    rank += 1
